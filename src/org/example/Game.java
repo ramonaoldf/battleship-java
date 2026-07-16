@@ -63,15 +63,16 @@ class Game {
     private void setup() {
         for (var player : new int[]{ 0, 1 }) {
             io.outputBoards(boards, player);
-            io.outputSetup(player);
+            io.outputSetup(player, false);
 
-            int shipId = 1;
+            int shipId = 0;
+            var shipsSetup = SHIP_SIZES.get(boardType);
 
-            for (var shipSize : SHIP_SIZES.get(boardType)) {
+            for (var shipSize : shipsSetup) {
                 while (true) {
                     var location = io.inputShipLocation(shipSize);
                     var result = boards[player].placeShip(
-                            shipId, location.point().x(), location.point().y(), shipSize, location.horizontal());
+                            shipId + 1, location.point().x(), location.point().y(), shipSize, location.horizontal());
 
                     if (result < 0) {
                         io.outputError((result == -1 ? "out of bounds" : (result == -2 ? "occupied" : "unknown")));
@@ -81,19 +82,10 @@ class Game {
                     shipId++;
 
                     io.outputBoards(boards, player);
-                    sleep();
-                    io.outputSetup(player);
+                    io.outputSetup(player, shipId == shipsSetup.size());
                     break;
                 }
             }
-        }
-    }
-
-    private void sleep() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }
