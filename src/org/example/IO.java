@@ -12,7 +12,7 @@ interface IO {
 
     void outputHelp();
 
-    void outputSetup(int player);
+    void outputSetup(int player, boolean setupComplete);
 
     Point inputHit(int player);
 

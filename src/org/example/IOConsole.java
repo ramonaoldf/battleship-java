@@ -43,7 +43,10 @@ class IOConsole implements IO {
     }
 
     @Override
-    public void outputSetup(int player) {
+    public void outputSetup(int player, boolean setupComplete) {
+        if (setupComplete) {
+            sleep();
+        }
         out.println("Player " + (player + 1) + ", setup your ships!");
     }
 
@@ -99,5 +102,13 @@ class IOConsole implements IO {
     private void clear() {
         out.print("\033[H\033[2J");
         out.flush();
+    }
+
+    private void sleep() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
